@@ -2,9 +2,11 @@ import { NextFunction, Request, Response } from "express";
 import bcrypt from 'bcrypt'
 import User, { IUser } from "../models/user.model.ts";
 import jwt from 'jsonwebtoken'
+import error from "../utils/error.ts";
+import catchAsync from "../utils/catchAsync.ts";
 
 
-export const register = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const register = catchAsync(async (req: Request, res: Response, next: NextFunction): Promise<void> => {
 
     const hashedPass: string = bcrypt.hashSync(req.body.password, 12)
 
@@ -16,23 +18,20 @@ export const register = async (req: Request, res: Response, next: NextFunction):
     const { password, ...userWithoutPass } = newUser
 
     res.status(200).json({ message: 'Hesabiniz oluşturuldu', data: userWithoutPass })
-}
+})
 
-export const login = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const login = catchAsync(async (req: Request, res: Response, next: NextFunction): Promise<void> => {
 
     const user: IUser | null = await User.findOne({ username: req.body.username })
 
 
     if (!user) {
-        next(new Error('Kullanici bulunamadi'))
-        return
+        return next(error(404, 'Kullanici bulunamadi'))
     }
 
     const isCorrect = bcrypt.compareSync(req.body.password, user.password)
 
-    if (!isCorrect) {
-        res.status(404).json({ message: 'Şifre yanliş' })
-    }
+    if (!isCorrect) return next(error(404, 'Girdiğiniz bilgiler yanliş'))
 
     const token = jwt.sign(
         { id: user._id, isSeller: user.isSeller },
@@ -52,8 +51,8 @@ export const login = async (req: Request, res: Response, next: NextFunction): Pr
         })
         .status(200)
         .json({ message: "Hesaba giriş yapıldı", token, user: user });
-}
+})
 
-export const logout = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const logout = catchAsync(async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     res.clearCookie('token').status(200).json({ message: 'Hesaptan çikiş yapildi' })
-}    
+})    
