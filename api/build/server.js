@@ -1,9 +1,9 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import authRouter from './routes/auth.routes.ts';
-import gigRouter from './routes/gig.routes.ts';
-import reviewRouter from './routes/review.routes.ts';
+import authRouter from './routes/auth.routes';
+import gigRouter from './routes/gig.routes';
+import reviewRouter from './routes/review.routes';
 dotenv.config();
 mongoose.connect(process.env.DATABASE_URL)
     .then(() => console.log('Veri tabani ile bağlanti kuruldu⛏'))
