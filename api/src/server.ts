@@ -1,9 +1,10 @@
 import express from 'express'
 import mongoose from 'mongoose'
 import dotenv from 'dotenv'
-import authRouter from './routes/auth.routes'
-import gigRouter from './routes/gig.routes'
-import reviewRouter from './routes/review.routes'
+import authRouter from './routes/auth.routes.ts'
+import gigRouter from './routes/gig.routes.ts'
+import reviewRouter from './routes/review.routes.ts'
+import errorMiddleware from './middleware/errorHandler.ts'
 
 dotenv.config();
 
@@ -18,6 +19,9 @@ app.use(express.json())
 app.use('/api/auth', authRouter)
 app.use('/api/gigs', gigRouter)
 app.use('/api/reviews', reviewRouter)
+
+app.use(errorMiddleware)
+
 
 app.listen(process.env.PORT, () => {
     console.log(`${process.env.PORT}. port dinlemde💊`)

@@ -12,6 +12,7 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
     "@types/express": "^5.0.1",
     "@types/mongoose": "^5.11.96",
     "@types/node": "^22.15.2",
@@ -21,8 +22,11 @@
     "typescript": "^5.8.3"
   },
   "dependencies": {
+    "@types/jsonwebtoken": "^9.0.9",
+    "bcrypt": "^5.1.1",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^8.14.0"
   }
 }
