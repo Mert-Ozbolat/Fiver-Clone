@@ -1,17 +1,26 @@
-import React, { useState } from 'react'
+import React, { FormEvent, useState } from 'react'
 import Input from '../../components/input'
 import Toggle from '../../components/input/toggle'
-import App from './../../App';
 import { Link } from 'react-router-dom';
+import { IFormUser } from '../../types';
+
 
 const Register = () => {
 
     const [isSeller, setIsSeller] = useState<boolean>(false)
 
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        const formData = new FormData(e.target as HTMLFormElement)
+
+        const newUser = Object.fromEntries(formData.entries());
+
+        (newUser as unknown as IFormUser).isSeller = isSeller;
+    }
 
     return (
         <div className='max-w-[900px] mx-auto'>
-            <form className='grid md:grid-cols-2 md:gap-10 md:pt-24'>
+            <form onSubmit={handleSubmit} className='grid md:grid-cols-2 md:gap-10 md:pt-24'>
                 <div>
                     <h1 className='text-xl md:text-2xl text-gray-500 font-bold mb-5'>Yeni Hesap Oluştur</h1>
                     <Input label='İsim' required={true} name='username' />
