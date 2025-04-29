@@ -1,8 +1,15 @@
 import React from 'react'
+import Hero from './hero'
+import Category from './category'
+import Info from './info'
 
 const Home = () => {
     return (
-        <div>Home</div>
+        <div>
+            <Hero />
+            <Category />
+            <Info />
+        </div>
     )
 }
 

@@ -10,7 +10,7 @@ const Header = () => {
 
     return (
         <header className='p-5 shadow'>
-            <div className='max-w-[1440px] mx-auto flex justify-between gap-4 md:gap-8'>
+            <div className='max flex justify-between gap-4 md:gap-8'>
                 <Link to='/'>
                     <img src='/logo.png' className='w-[100px]' />
                 </Link>
