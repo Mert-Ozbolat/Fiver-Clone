@@ -5,10 +5,11 @@ import { IUser } from '../../types'
 
 type Props = {
     data: IUser
+    logout: () => void
 }
 
 
-const User = ({ data }: Props) => {
+const User = ({ data, logout }: Props) => {
 
     return (
         <>
@@ -30,7 +31,7 @@ const User = ({ data }: Props) => {
                 </Link>
 
                 <button
-                    onClick={() => alert('Çıkış yapılıyor')}
+                    onClick={logout}
                     className='px-5 py-2 hover:bg-gray-100'>
                     Çıkış yap
                 </button>

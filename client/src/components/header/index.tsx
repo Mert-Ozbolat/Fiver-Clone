@@ -7,7 +7,7 @@ import { useAuth } from '../../context/authContext'
 
 const Header = () => {
 
-    const { user } = useAuth()
+    const { user, logout } = useAuth()
 
     return (
         <header className='p-5 shadow'>
@@ -24,7 +24,7 @@ const Header = () => {
 
                 <div className='flex items-center gap-2 relative group'>
                     {
-                        user ? <User data={user} /> : <Links />
+                        user ? <User data={user} logout={logout} /> : <Links />
                     }
                 </div>
 

@@ -1,4 +1,4 @@
-import { createContext, JSX, useContext, useState } from "react"
+import { createContext, JSX, useContext, useEffect, useState } from "react"
 import { IFormUser, ILoginUser, IUser } from "../types"
 import api from "../api"
 import { toast } from "react-toastify"
@@ -24,6 +24,22 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
 
     const [user, setUser] = useState<IUser | null>(null)
 
+    useEffect(() => {
+        api
+            .get('/auth/profile', {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            })
+            .then((res) => setUser(res.data.user))
+            .catch((err) => {
+                localStorage.removeItem('token')
+                toast.info('Oturumunuzun süresi doldu lütfen tekrardan giriş yapin')
+            })
+    }, [])
+
+
+
     const register = (user: IFormUser) => {
         api
             .post('/auth/register', user, {
@@ -34,7 +50,8 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
                 navigate('/login')
 
             })
-            .catch((err) => console.log(err))
+            .catch((err) =>
+                toast.error(err.response?.data?.message))
     }
 
     const login = (user: ILoginUser) => {
@@ -43,12 +60,22 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
             .then((res) => {
                 setUser(res.data.user)
                 localStorage.setItem('token', res.data.token)
+                toast.success('Oturumunuz açildi')
                 navigate('/')
+            })
+            .catch((err) => toast.error(err.response?.data?.message))
+    }
+
+    const logout = () => {
+        api
+            .post('/auth/logout')
+            .then(() => {
+                setUser(null)
+                localStorage.removeItem('token')
+                toast.info('Oturumunuz kapatildi')
             })
             .catch((err) => console.log(err))
     }
-
-    const logout = () => { }
 
 
     return (
