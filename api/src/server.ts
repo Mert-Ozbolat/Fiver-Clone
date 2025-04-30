@@ -6,6 +6,7 @@ import gigRouter from './routes/gig.routes.ts'
 import reviewRouter from './routes/review.routes.ts'
 import errorMiddleware from './middleware/errorHandler.ts'
 import cors from 'cors'
+import cookieParser from 'cookie-parser'
 
 
 dotenv.config();
@@ -17,6 +18,7 @@ mongoose.connect(process.env.DATABASE_URL as string)
 const app = express()
 
 app.use(express.json())
+app.use(cookieParser())
 
 app.use(cors({
     origin: 'http://localhost:5173',

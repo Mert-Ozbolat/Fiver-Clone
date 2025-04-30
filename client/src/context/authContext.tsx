@@ -43,6 +43,7 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
             .then((res) => {
                 setUser(res.data.user)
                 localStorage.setItem('token', res.data.token)
+                navigate('/')
             })
             .catch((err) => console.log(err))
     }

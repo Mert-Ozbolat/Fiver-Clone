@@ -55,4 +55,11 @@ export const login = catchAsync(async (req: Request, res: Response, next: NextFu
 
 export const logout = catchAsync(async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     res.clearCookie('token').status(200).json({ message: 'Hesaptan çikiş yapildi' })
-})    
+})
+
+export const profile = catchAsync(async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+
+    res.status(200).json({
+        message: 'Profil bilgileri'
+    })
+})
