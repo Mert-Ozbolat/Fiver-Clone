@@ -41,7 +41,7 @@ export const login = catchAsync(async (req: Request, res: Response, next: NextFu
         }
     );
 
-    const { password, ...userWithoutPass } = user
+    user.password = ""
 
     res
         .cookie("token", token, {
