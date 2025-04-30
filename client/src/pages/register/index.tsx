@@ -1,13 +1,15 @@
-import React, { FormEvent, useState } from 'react'
+import React, { FormEvent, useContext, useState } from 'react'
 import Input from '../../components/input'
 import Toggle from '../../components/input/toggle'
 import { Link } from 'react-router-dom';
 import { IFormUser } from '../../types';
+import { AuthContext } from '../../context/authContext';
 
 
 const Register = () => {
 
     const [isSeller, setIsSeller] = useState<boolean>(false)
+    const { register } = useContext(AuthContext)
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -16,6 +18,8 @@ const Register = () => {
         const newUser = Object.fromEntries(formData.entries());
 
         (newUser as unknown as IFormUser).isSeller = isSeller;
+
+        register(newUser as unknown as IFormUser)
     }
 
     return (

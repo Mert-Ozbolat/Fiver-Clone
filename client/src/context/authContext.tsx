@@ -1,5 +1,6 @@
 import { createContext, JSX, useState } from "react"
 import { IFormUser, ILoginUser, IUser } from "../types"
+import api from "../api"
 
 
 type ContextType = {
@@ -19,7 +20,14 @@ export const AuthContext = createContext<ContextType>({
 export const AuthProvider = ({ children }: { children: JSX.Element }) => {
     const [user, setUser] = useState<IUser | null>(null)
 
-    const register = () => { }
+    const register = (user: IFormUser) => {
+        api
+            .post('/auth/register', user, {
+                headers: { 'Content-Type': 'multipart/form-data' }
+            })
+            .then((res) => console.log(res))
+            .catch((err) => console.log(err))
+    }
 
     const login = () => { }
 

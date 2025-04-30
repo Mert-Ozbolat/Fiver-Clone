@@ -2,8 +2,8 @@ import express, { Router } from 'express'
 
 const router: Router = express.Router()
 
-router.route('/').get()
-router.route('/:id').get()
+// router.route('/').get()
+// router.route('/:id').get()
 
 
 
