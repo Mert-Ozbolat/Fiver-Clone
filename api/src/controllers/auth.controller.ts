@@ -59,7 +59,14 @@ export const logout = catchAsync(async (req: Request, res: Response, next: NextF
 
 export const profile = catchAsync(async (req: Request, res: Response, next: NextFunction): Promise<void> => {
 
+    const user = await User.findById(req.userId)
+
+    if (!user) return next(error(404, 'Kullanici kulunamadi'))
+
+    user.password = ""
+
     res.status(200).json({
-        message: 'Profil bilgileri'
+        message: 'Profil bilgileri',
+        user
     })
 })
