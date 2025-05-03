@@ -5,9 +5,33 @@ import error from "../utils/error.ts";
 import upload from "../utils/cloudinary.ts";
 import { ExtendedFiles, Filters, Query } from "../types/index.ts";
 
+
+const buildFilters = (query: Query): Filters => {
+    let filters: Filters = {};
+
+    if (query.userID) filters.user = query.userID;
+    if (query.category) filters.category = query.category;
+    if (query.min || query.max) {
+        filters.package_price = {};
+
+        if (query.min) filters.package_price.$gte = query.min;
+        if (query.max) filters.package_price.$lte = query.max;
+    }
+    if (query.search) filters.title = { $regex: query.search, $options: "i" };
+
+    return filters;
+};
+
+
 export const getAllGigs = c(
     async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-        const gigs = await Gig.find();
+
+        const filters = buildFilters
+
+        const gigs = await Gig.find(filters).populate('user', 'username photo');
+
+        if (gigs.length === 0) return next(error(404, 'Hiç hizmet bulunamadi'))
+
         res
             .status(200)
             .json({ results: gigs.length, gigs, message: "İşlem başarili" });
