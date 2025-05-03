@@ -26,21 +26,24 @@ const buildFilters = (query: Query): Filters => {
 export const getAllGigs = c(
     async (req: Request, res: Response, next: NextFunction): Promise<void> => {
 
-        const filters = buildFilters
+        const filters = buildFilters(req.query);
 
-        const gigs = await Gig.find(filters).populate('user', 'username photo');
+        const gigs = await Gig.find(filters).populate("user", "username photo");
 
-        if (gigs.length === 0) return next(error(404, 'Hiç hizmet bulunamadi'))
+        if (gigs.length === 0) return next(error(404, "Hiç hizmet bulunamadı"));
 
         res
             .status(200)
-            .json({ results: gigs.length, gigs, message: "İşlem başarili" });
+            .json({ results: gigs.length, gigs, message: "İşlem Başarılı" });
     }
 );
 
 export const getGig = c(
     async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-        res.status(200).json({ message: "İşlem başarili" });
+
+        const gig = await Gig.findById(req.params.id).populate('user', '-password')
+
+        res.status(200).json({ message: "İşlem başarili", gig });
     }
 );
 
