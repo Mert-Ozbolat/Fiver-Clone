@@ -25,6 +25,8 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
     const [user, setUser] = useState<IUser | null>(null)
 
     useEffect(() => {
+        const token = localStorage.getItem('token') || document.cookie
+        if (!token) return;
         api
             .get('/auth/profile', {
                 headers: {
