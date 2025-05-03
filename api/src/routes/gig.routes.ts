@@ -9,7 +9,7 @@ router.route('/').get(getAllGigs).post(protect, upload.fields([
     { name: 'coverImage', maxCount: 1 },
     { name: 'images', maxCount: 6 },
 ]), createGig)
-router.route('/:id').get(getGig).delete(deleteGig)
+router.route('/:id').get(getGig).delete(protect, deleteGig)
 
 
 export default router
