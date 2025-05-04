@@ -4,6 +4,7 @@ import { IoSearch } from 'react-icons/io5'
 import User from './user'
 import Links from './links'
 import { useAuth } from '../../context/authContext'
+import Form from './form'
 
 const Header = () => {
 
@@ -17,10 +18,7 @@ const Header = () => {
                 </Link>
 
 
-                <form className='flex-1 flex border rounded overflow-hidden max-w-[500px]'>
-                    <input type="text" className='w-full h-full px-3 outline-none' placeholder='hizmet ara...' />
-                    <button className='bg-black p-2 text-white text-xl max-sm:hidden'><IoSearch /></button>
-                </form>
+                <Form />
 
                 <div className='flex items-center gap-2 relative group'>
                     {

@@ -3,6 +3,10 @@ import React from 'react'
 import { useSearchParams } from 'react-router-dom'
 import api from '../../api'
 import Title from './title'
+import Loader from '../../components/loader'
+import Error from '../../components/error'
+import Card from '../../components/card'
+import { IGig } from '../../types'
 
 const Search = () => {
 
@@ -15,7 +19,7 @@ const Search = () => {
         search: query
     }
 
-    const { isLoading, error, data, refetch } = useQuery({
+    const { isLoading, error, data, refetch } = useQuery<IGig[]>({
         queryKey: ['gigs', params],
         queryFn: () => api.get('/gigs', { params }).then((res) => res.data.gigs)
     })
@@ -24,6 +28,18 @@ const Search = () => {
     return (
         <div>
             <Title query={query} category={category} />
+
+            {isLoading ? (
+                <Loader designs="my-20 size-8" />
+            ) : error ? (
+                <Error info={error} refetch={refetch} />
+            ) : (
+                <div className="layout">
+                    {data?.map((item) => (
+                        <Card key={item._id} item={item} />
+                    ))}
+                </div>
+            )}
         </div>
     )
 }
