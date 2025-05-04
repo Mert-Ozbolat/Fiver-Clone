@@ -4,20 +4,31 @@ import Input from '../../components/input'
 import Select from '../../components/input/select'
 import { useMutation } from '@tanstack/react-query'
 import api from '../../api'
+import { toast } from 'react-toastify'
+import { useNavigate } from 'react-router-dom'
+import Loader from '../../components/loader'
 
 const Create = () => {
 
-    useMutation({
-        mutationFn: (data) => api.post('/gigs', data, { headers: { 'Content-Type': 'multipart/form-data' } })
+    const navigate = useNavigate()
+
+    const { isPending, mutate } = useMutation({
+        mutationFn: (data: FormData) => api.post('/gigs', data, { headers: { 'Content-Type': 'multipart/form-data' } }),
+
+        onSuccess: (res) => {
+            toast.success('Hizmet oluşturuldu')
+            navigate(`/detail/${res.data.gig._id}`)
+        },
+
+        onError: (err) => {
+            toast.success('Hizmet oluşturulamadi')
+        }
     })
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
         e.preventDefault()
-
         const data = new FormData(e.currentTarget)
-
-
-
+        mutate(data)
     }
 
 
@@ -36,7 +47,11 @@ const Create = () => {
                 </div>
 
                 <div className='flex md:justify-center my-5'>
-                    <button className='bg-green-500 px-6 py-2 rounded-md text-white hover:bg-green-600 max-md:w-full'>Oluştur</button>
+                    <button disabled={isPending} className='bg-green-500 px-6 py-2 rounded-md text-white hover:bg-green-600 max-md:w-full'>
+                        {
+                            isPending ? <Loader /> : 'Oluştur'
+                        }
+                    </button>
                 </div>
 
             </form>
