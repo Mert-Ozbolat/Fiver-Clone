@@ -2,13 +2,22 @@ import React, { FormEvent } from 'react'
 import { categories, inputs } from '../../utils/constants'
 import Input from '../../components/input'
 import Select from '../../components/input/select'
+import { useMutation } from '@tanstack/react-query'
+import api from '../../api'
 
 const Create = () => {
+
+    useMutation({
+        mutationFn: (data) => api.post('/gigs', data, { headers: { 'Content-Type': 'multipart/form-data' } })
+    })
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
         e.preventDefault()
 
         const data = new FormData(e.currentTarget)
+
+
+
     }
 
 
