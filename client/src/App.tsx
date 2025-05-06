@@ -8,6 +8,7 @@ import Footer from './components/footer'
 import Search from './pages/search'
 import Create from './pages/create'
 import Detail from './pages/detail'
+import MyGigs from './pages/my-gigs'
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
           <Route path='/login' element={<Login />} />
           <Route path='/search' element={<Search />} />
           <Route path='/add-gig' element={<Create />} />
+          <Route path='/my-gig' element={<MyGigs />} />
           <Route path='/detail/:id' element={<Detail />} />
         </Routes>
       </div>
