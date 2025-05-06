@@ -84,7 +84,7 @@ export const deleteGig = c(
 
         const gig = await Gig.findById(req.params.id)
 
-        if (gig?.user !== req.userId) return next(error(403, 'Bu işlemi yapmaya yetkiniz yok'))
+        if (String(gig?.user) !== req.userId) return next(error(403, 'Bu işlemi yapmaya yetkiniz yok'))
 
         await Gig.findByIdAndDelete(req.params.id)
 
